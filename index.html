@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>Typing Works Custom</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="shade" id="shade"></div>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Typing Works Custom 홈">
+      <span class="brand-mark">T</span>
+      <span>typing<span class="brand-light">works</span><small>CUSTOM</small></span>
+    </a>
+    <nav class="top-actions">
+      <button class="icon-button" id="settingsToggle" aria-label="디자인 설정 열기" title="디자인 설정">⚙</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <div class="eyebrow">TYPE AT YOUR OWN PACE</div>
+      <h1>오늘도 가볍게,<br><span>타이핑 연습.</span></h1>
+      <p>나만의 분위기로 꾸미고, 편안하게 타이핑해 보세요.</p>
+    </section>
+
+    <section class="practice-card glass">
+      <div class="practice-head">
+        <div>
+          <div class="section-label">연습 모드</div>
+          <h2 id="modeTitle">문장 연습</h2>
+        </div>
+        <div class="mode-tabs" role="group" aria-label="연습 모드">
+          <button class="mode-tab active" data-mode="sentences">문장</button>
+          <button class="mode-tab" data-mode="paragraph">긴 글</button>
+          <button class="mode-tab" data-mode="custom">직접 입력</button>
+        </div>
+      </div>
+
+      <div class="passage-wrap" id="passageWrap">
+        <div class="passage-label">아래 문장을 보고 입력하세요</div>
+        <div class="passage" id="passage" aria-live="polite"></div>
+      </div>
+
+      <div class="custom-source hidden" id="customSource">
+        <label for="customText">연습할 글</label>
+        <textarea id="customText" rows="3" placeholder="연습하고 싶은 문장을 여기에 붙여 넣으세요."></textarea>
+        <button class="small-button" id="applyCustom">이 글로 연습하기</button>
+      </div>
+
+      <label class="typing-label" for="typingInput">여기에 입력하세요</label>
+      <textarea id="typingInput" class="typing-input" rows="3" placeholder="위 문장을 입력하기 시작하면 기록이 시작됩니다." spellcheck="false" autocomplete="off"></textarea>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-name">속도</span><strong><span id="wpm">0</span><small> 타/분</small></strong></div>
+        <div class="stat"><span class="stat-name">정확도</span><strong><span id="accuracy">100</span><small>%</small></strong></div>
+        <div class="stat"><span class="stat-name">진행률</span><strong><span id="progress">0</span><small>%</small></strong></div>
+        <div class="stat"><span class="stat-name">경과 시간</span><strong id="elapsed">00:00</strong></div>
+      </div>
+
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="practice-footer">
+        <span id="statusMessage">준비되면 입력을 시작하세요.</span>
+        <div class="footer-actions">
+          <button class="text-button" id="resetButton">다시 시작</button>
+          <button class="primary-button" id="nextButton">다음 문장 <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-footer">YOUR SPACE · YOUR PACE</footer>
+  </main>
+
+  <aside class="settings-panel" id="settingsPanel" aria-label="디자인 설정" aria-hidden="true">
+    <div class="settings-header">
+      <div><div class="section-label">PERSONALIZE</div><h2>디자인 설정</h2></div>
+      <button class="icon-button close-button" id="settingsClose" aria-label="설정 닫기">×</button>
+    </div>
+
+    <section class="setting-group">
+      <h3>배경 이미지</h3>
+      <label class="upload-button" for="backgroundUpload">＋ 이미지 업로드</label>
+      <input id="backgroundUpload" type="file" accept="image/*" hidden>
+      <button class="plain-button" id="removeBackground">배경 이미지 제거</button>
+      <div class="control-row"><label for="bgOpacity">배경 투명도</label><output id="bgOpacityValue">100%</output></div>
+      <input id="bgOpacity" type="range" min="0" max="100" value="100">
+      <div class="control-row"><label for="bgBlur">배경 흐림</label><output id="bgBlurValue">0px</output></div>
+      <input id="bgBlur" type="range" min="0" max="20" value="0">
+      <div class="control-row"><label for="bgDim">어둡게</label><output id="bgDimValue">25%</output></div>
+      <input id="bgDim" type="range" min="0" max="80" value="25">
+    </section>
+
+    <section class="setting-group">
+      <h3>글자 스타일</h3>
+      <label class="field-label" for="fontFamily">글꼴</label>
+      <select id="fontFamily">
+        <option value="Pretendard, 'Noto Sans KR', sans-serif">기본 고딕</option>
+        <option value="'Noto Serif KR', 'Batang', serif">명조</option>
+        <option value="Georgia, serif">Georgia</option>
+        <option value="'Courier New', monospace">Courier New</option>
+        <option value="Arial, sans-serif">Arial</option>
+      </select>
+      <div class="control-row"><label for="fontSize">글자 크기</label><output id="fontSizeValue">17px</output></div>
+      <input id="fontSize" type="range" min="14" max="25" value="17">
+      <div class="control-row"><label for="fontWeight">글자 굵기</label><output id="fontWeightValue">500</output></div>
+      <input id="fontWeight" type="range" min="300" max="800" step="100" value="500">
+      <div class="control-row"><label for="textColor">글자 색상</label><input id="textColor" type="color" value="#f4f5f7"></div>
+      <div class="control-row"><label for="accentColor">강조 색상</label><input id="accentColor" type="color" value="#a7c7ff"></div>
+    </section>
+
+    <section class="setting-group">
+      <h3>입력창 스타일</h3>
+      <div class="control-row"><label for="inputOpacity">입력창 투명도</label><output id="inputOpacityValue">12%</output></div>
+      <input id="inputOpacity" type="range" min="0" max="60" value="12">
+      <div class="control-row"><label for="panelBlur">카드 흐림</label><output id="panelBlurValue">16px</output></div>
+      <input id="panelBlur" type="range" min="0" max="30" value="16">
+    </section>
+
+    <div class="settings-bottom">
+      <button class="reset-settings" id="resetSettings">디자인 기본값으로 초기화</button>
+      <span>설정은 이 브라우저에 자동 저장됩니다.</span>
+    </div>
+  </aside>
+  <div class="panel-scrim" id="panelScrim"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
